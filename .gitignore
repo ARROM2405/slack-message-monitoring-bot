@@ -1,6 +1,6 @@
 myenv/
 *.pyc
 __pycache__/
-.env
+#.env normally file with credentials will not be added to the repo, but adding here, so you can run the project
 .DS_Store
 .idea
