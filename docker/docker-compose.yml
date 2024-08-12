@@ -13,10 +13,30 @@ services:
     networks:
       - avanon_network
 
+  redis:
+    image: redis:7.2.4-alpine
+    container_name: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redisdata:/data/
+    networks:
+      - avanon_network
+
+  tool:
+    build:
+      context: ..
+      dockerfile: ./docker/DockerFile-tool
+    env_file:
+        - ../.env
+    networks:
+      - avanon_network
+
+
   django:
     build:
       context: ..
-      dockerfile: ./docker/DockerFile
+      dockerfile: ./docker/DockerFile-django
     command: >
       sh -c "python manage.py migrate &&
       python manage.py runserver 0.0.0.0:8000"
@@ -26,13 +46,18 @@ services:
       - "8000:8000"
     env_file:
       - ../.env
+    environment:
+      DJANGO_SETTINGS_MODULE: ./avanan_home_assignment.settings
     depends_on:
       - db
+      - redis
+      - tool
     networks:
       - avanon_network
 
 volumes:
   mysql_data:
+  redisdata:
 
 networks:
   avanon_network:

@@ -47,11 +47,11 @@ DJANGO_APPS = [
 ]
 
 PROJECT_APPS = [
-    "data_loss_prevention_tool",
     "slack_integration",
 ]
 
 THIRD_PARTY_LIBRARIES = [
+    "django_extensions",
     "rest_framework",
 ]
 
