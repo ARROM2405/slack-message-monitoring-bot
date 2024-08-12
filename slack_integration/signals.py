@@ -18,12 +18,13 @@ sqs_queue_url = os.getenv("NEW_PATTERNS_QUEUE_URL")
 
 @receiver(post_save, sender=DataSecurityPattern)
 def send_message_on_save(sender, instance, **kwargs):
-    action = "created" if kwargs.get("created", False) else "updated"
+    sqs = boto3.client("sqs")
+    action = "create" if kwargs.get("created", False) else "update"
     message = {
         "task": "pattern_update",
         "kwargs": {
             "action": action,
-            "instance_id": instance.id,
+            "pattern_id": instance.id,
             "pattern": instance.pattern,
         },
     }
@@ -31,12 +32,13 @@ def send_message_on_save(sender, instance, **kwargs):
 
 
 @receiver(post_delete, sender=DataSecurityPattern)
-def send_message_on_save(sender, instance, **kwargs):
+def send_message_on_delete(sender, instance, **kwargs):
+    sqs = boto3.client("sqs")
     message = {
         "task": "pattern_update",
         "kwargs": {
             "action": "delete",
-            "instance_id": instance.id,
+            "pattern_id": instance.id,
         },
     }
     sqs.send_message(QueueUrl=sqs_queue_url, MessageBody=json.dumps(message))

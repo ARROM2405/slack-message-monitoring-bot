@@ -24,10 +24,11 @@ class DataLossMessagePositiveService:
         message: DataLossPositiveSavedMessage = redis_client.hgetall(message_uuid)
         redis_client.delete(message_uuid)
         return DataLossMessage(
-            user_id=message["user_id"],
-            text=message["text"],
-            ts=message["ts"],
-            channel=message["channel"],
+            user_id=message[b"user_id"].decode("utf-8"),
+            text=message[b"text"].decode("utf-8"),
+            ts=message[b"ts"].decode("utf-8"),
+            channel=message[b"channel"].decode("utf-8"),
+            file_download_link=message[b"file_download_link"].decode("utf-8"),
         )
 
     @staticmethod
@@ -35,8 +36,8 @@ class DataLossMessagePositiveService:
         message: DataLossMessage, failed_patterns: list[DataSecurityPattern]
     ):
         failed_patterns_ids = [pattern.id for pattern in failed_patterns]
-        message.failed_security_patterns.add(*failed_patterns_ids)
         message.save()
+        message.failed_security_patterns.add(*failed_patterns_ids)
 
     @staticmethod
     def _delete_message_from_slack(message: DataLossMessage):
@@ -65,7 +66,7 @@ class DataLossMessagePositiveService:
         failed_pattern_names = ", ".join(
             [pattern.name for pattern in self.failed_patterns]
         )
-        text = f"Deleted message due to the failed patterns: {failed_pattern_names}"
+        text = f"Deleted message due to the failed patterns: {failed_pattern_names}."
         payload = {"channel": channel, "text": text}
         response = requests.post(
             post_message_url,

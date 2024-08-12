@@ -47,7 +47,7 @@ services:
     env_file:
       - ../.env
     environment:
-      DJANGO_SETTINGS_MODULE: ./avanan_home_assignment.settings
+      DJANGO_SETTINGS_MODULE: avanan_home_assignment.settings
     depends_on:
       - db
       - redis

@@ -11,7 +11,7 @@ class EventSerializer(serializers.Serializer):
     user = serializers.CharField()
     type = serializers.CharField()
     client_msg_id = serializers.CharField()
-    text = serializers.CharField()
+    text = serializers.CharField(allow_null=True, allow_blank=True)
     ts = serializers.CharField()
     channel = serializers.CharField()
     files = PostedFileSerializer(required=False, many=True)

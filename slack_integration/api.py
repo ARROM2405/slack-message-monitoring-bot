@@ -24,7 +24,6 @@ class SlackViewSet(GenericViewSet):
 
     @action(methods=["POST"], detail=False)
     def webhook(self, request, *args, **kwargs):
-        print(request.data)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         handler = RequestHandler(serializer.validated_data)
@@ -33,7 +32,6 @@ class SlackViewSet(GenericViewSet):
 
     @action(methods=["POST"], detail=False)
     def data_loss_positive_message(self, request, *args, **kwargs):
-        print(request.data)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         service = DataLossMessagePositiveService(**serializer.validated_data)

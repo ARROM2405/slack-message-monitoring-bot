@@ -42,9 +42,9 @@ class UrlVerificationRequestService(RequestServiceBase[UrlVerificationRequestDat
         )
 
 
-class EventCallbackRequestService(RequestServiceBase[EventCallbackRequestData]):
+class EventCallBackRequestService(RequestServiceBase[EventCallbackRequestData]):
     def _add_message_uuid(self):
-        self.request_data["uuid"] = str(uuid.UUID())
+        self.request_data["uuid"] = str(uuid.uuid4())
 
     def _save_message_to_memory(self):
         event = self.request_data["event"]

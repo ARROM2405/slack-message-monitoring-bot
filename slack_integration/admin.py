@@ -16,7 +16,6 @@ class DataSecurityPatternAdmin(admin.ModelAdmin):
 
 class DataSecurityPatternInline(admin.TabularInline):
     model = DataLossMessage.failed_security_patterns.through
-    # readonly_fields = ("id", "name", "pattern")
     extra = 0
 
 
