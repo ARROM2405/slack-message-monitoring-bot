@@ -60,3 +60,4 @@ database. Used for database operations optimization.
 
 ## Possible enhancements
 1. Add logging.
+2. Add test db settings, so tests do not create objects on the real db.
