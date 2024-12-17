@@ -1,4 +1,4 @@
-# Avanan home assignment
+# Slack messagge monitoring bot
 
 ## Features
  * Monitoring of the messages and files posted in the Slack chat.
